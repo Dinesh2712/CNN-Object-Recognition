@@ -1,0 +1,30 @@
+#Compiling the model.
+
+model.compile(optimizer="adam",
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+              metrics=["accuracy"])
+              
+#Run it with 25 Epochs
+
+history = model.fit(train_images, train_labels, epochs=25,
+                    validation_data=(test_images, test_labels))
+                    
+#CHecking the model via graphs
+
+plt.plot(history.history["accuracy"], label="accuracy")
+plt.plot(history.history["val_accuracy"], label="val_accuracy")
+plt.xlabel("Epoch")
+plt.ylabel("Accuracy")
+plt.ylim([0.5, 1])
+plt.legend(loc="lower right")
+
+test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
+
+
+plt.plot(history.history['loss'], label='training loss')
+plt.plot(history.history['val_loss'], label='validation loss')
+plt.title('Training and Validation Loss Curves')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.legend()
+plt.show()
