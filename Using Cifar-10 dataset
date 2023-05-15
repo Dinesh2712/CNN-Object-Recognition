@@ -1,0 +1,47 @@
+import tensorflow as tf
+import keras
+from keras.datasets import cifar10
+from keras.preprocessing.image import ImageDataGenerator
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Conv2D, MaxPooling2D
+import matplotlib.pyplot as plt
+
+(train_images, train_labels), (test_images, test_labels) = cifar10.load_data()
+
+len(train_images)
+
+len(test_images)
+
+plt.imshow(train_images[5])
+
+class_names = ["plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
+
+plt.figure(figsize=(10,10))
+for i in range(25):
+  plt.subplot(5,5, i+1)
+  plt.xticks([])
+  plt.yticks([])
+  plt.grid(False)
+  plt.imshow(train_images[i])
+  plt.xlabel(class_names[train_labels[i][0]])
+plt.show()
+
+from keras import layers
+
+model = Sequential()
+model.add(layers.Conv2D(32,(3,3), activation="relu", input_shape=(32,32,3)))
+model.add(layers.MaxPooling2D((2,2)))
+model.add(Dropout(0.2))
+model.add(layers.Conv2D(128, (3,3), activation="relu"))
+model.add(layers.MaxPooling2D((2,2)))
+model.add(Dropout(0.2))
+model.add(layers.Conv2D(64, (3,3), activation="relu"))
+
+
+model.add(layers.Flatten())
+model.add(layers.Dense(64, activation="relu"))
+model.add(layers.Dense(10))
+
+model.summary()
+
